@@ -139,7 +139,7 @@ class RootViewController: UIViewController {
                 // Start the timeout timer for automatically hiding HoverView
                 self.hoverViewInactiveTimer = NSTimer.scheduledTimerWithTimeInterval(3.0,
                     target: self,
-                    selector: "timerFired:",
+                    selector: #selector(RootViewController.timerFired(_:)),
                     userInfo: nil,
                     repeats: false)
             } else {
