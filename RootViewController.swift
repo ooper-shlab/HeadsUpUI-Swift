@@ -60,7 +60,7 @@ class RootViewController: UIViewController {
     
     // Outlet to hold the HoverView instance loaded from HoverView.xib
     @IBOutlet var hoverView: HoverView!
-    var hoverViewInactiveTimer: NSTimer?
+    var hoverViewInactiveTimer: Timer?
     
     
     //MARK: - View Lifecycle
@@ -72,7 +72,7 @@ class RootViewController: UIViewController {
         super.viewDidLoad() //###
         // Load the hoverView from HoverView.xib
         let hoverViewXib = UINib(nibName: "HoverView", bundle: nil)
-        hoverViewXib.instantiateWithOwner(self, options: nil)
+        hoverViewXib.instantiate(withOwner: self, options: nil)
         
         self.view.addSubview(self.hoverView)
         self.hoverView.alpha = 0.0
@@ -125,19 +125,19 @@ class RootViewController: UIViewController {
     //  the value of the 'show' parameter.  If animating the hoverView into view,
     //  it starts a timer to hide the hoverView after a few seconds of inactivity.
     // -------------------------------------------------------------------------------
-    private func showHoverView(show: Bool) {
+    private func showHoverView(_ show: Bool) {
         // Clear any pending actions.
         self.hoverViewInactiveTimer?.invalidate()
         self.hoverViewInactiveTimer = nil
         
-        UIView.animateWithDuration(0.40) {
+        UIView.animate(withDuration: 0.40, animations: {
             
             if show {
                 // Fade the hoverView into view by affecting its alpha.
                 self.hoverView.alpha = 1.0
                 
                 // Start the timeout timer for automatically hiding HoverView
-                self.hoverViewInactiveTimer = NSTimer.scheduledTimerWithTimeInterval(3.0,
+                self.hoverViewInactiveTimer = Timer.scheduledTimer(timeInterval: 3.0,
                     target: self,
                     selector: #selector(RootViewController.timerFired(_:)),
                     userInfo: nil,
@@ -147,14 +147,14 @@ class RootViewController: UIViewController {
                 self.hoverView.alpha = 0.0
             }
             
-        }
+        }) 
     }
     
     // -------------------------------------------------------------------------------
     //	timerFired:
     //  Called when the hoverViewInactiveTimer fires.
     // -------------------------------------------------------------------------------
-    @objc func timerFired(timer: NSTimer) {
+    @objc func timerFired(_ timer: Timer) {
         // Time has passed, hide the HoverView.
         self.showHoverView(false)
     }
@@ -163,7 +163,7 @@ class RootViewController: UIViewController {
     //	touchesEnded:withEvent:
     //  Called when the user touches our view.
     // -------------------------------------------------------------------------------
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if touches.first?.tapCount == 1 {
             self.showHoverView(self.hoverView.alpha != 1.0)
         }

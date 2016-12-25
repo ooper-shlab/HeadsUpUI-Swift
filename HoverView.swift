@@ -58,11 +58,11 @@ import UIKit
 @objc(HoverView)
 class HoverView: UIView {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         // draw a box with rounded corners to fill the view -
         let roundedRect = UIBezierPath(roundedRect: self.bounds, cornerRadius: 5.0)
         UIColor(white: 0.8, alpha: 0.5).setFill()
-        roundedRect.fillWithBlendMode(.Normal, alpha: 1)
+        roundedRect.fill(with: .normal, alpha: 1)
     }
     
 }
